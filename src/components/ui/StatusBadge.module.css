@@ -1,0 +1,31 @@
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    border: 2px solid var(--text-main);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.TODO {
+    background-color: var(--status-spec);
+    color: var(--text-main);
+}
+
+.IN_PROGRESS {
+    background-color: var(--status-working);
+}
+
+.REVIEW {
+    background-color: var(--status-review);
+    color: var(--text-main);
+}
+
+
+
+.DONE {
+    background-color: var(--status-done);
+}

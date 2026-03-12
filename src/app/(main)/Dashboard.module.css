@@ -1,0 +1,155 @@
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.headerItem {
+    grid-column: span 12;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-sunken);
+    border: 2px solid var(--text-main);
+}
+
+.progressItem {
+    grid-column: span 12;
+}
+
+.focusItem {
+    grid-column: span 8;
+}
+
+.anomalyItem {
+    grid-column: span 4;
+}
+
+.logsItem {
+    grid-column: span 6;
+}
+
+.teamItem {
+    grid-column: span 6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+
+    .focusItem,
+    .anomalyItem,
+    .logsItem,
+    .teamItem {
+        grid-column: span 12;
+    }
+}
+
+.statusInfo {
+    font-size: 0.8rem;
+    color: var(--color-moss-dark);
+    font-weight: bold;
+}
+
+.logEntry {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--text-muted);
+    padding: 0.2rem 0.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.logTime {
+    color: var(--text-muted);
+    margin-right: 0.5rem;
+}
+
+.interactiveLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: all 0.2s ease;
+}
+
+.interactiveLink:hover>div {
+    background-color: rgba(0, 255, 0, 0.05);
+    /* Slight green tint */
+    border-color: var(--color-moss-light) !important;
+}
+
+.interactiveLink:hover :global(.pixel-text) {
+    color: var(--color-moss-light);
+}
+
+.anomalyLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.anomalyEntry {
+    margin-bottom: 0.5rem;
+    color: var(--color-rust);
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    transition: all 0.2s ease;
+    border-left: 2px solid transparent;
+}
+
+.anomalyLink:hover .anomalyEntry {
+    background-color: rgba(255, 68, 68, 0.1);
+    border-left: 2px solid var(--color-rust);
+    color: #ffaaaa;
+}
+
+.anomalyLink:hover .anomalyEntry::before {
+    content: '> ';
+}
+
+.logLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.logLink:hover .logEntry {
+    background-color: var(--color-moss-dark);
+    color: var(--bg-main);
+}
+
+.logLink:hover .logTime,
+.logLink:hover :global(.pixel-text) {
+    color: var(--bg-main) !important;
+}
+
+.logLink:hover .logEntry::before {
+    content: '> ';
+    margin-right: 4px;
+    font-weight: bold;
+}
+
+.teamList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.teamMember {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--bg-main);
+    border-left: 3px solid var(--color-moss-light);
+}
+
+.loadBadge {
+    background-color: var(--color-metal);
+    color: white;
+    padding: 0 4px;
+    border-radius: 2px;
+}

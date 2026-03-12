@@ -1,0 +1,142 @@
+:root {
+  /* Nuetral / Backgrounds */
+  --bg-main: #f0f4f0;
+  /* Light greenish grey */
+  --bg-panel: #e2e8e2;
+  /* Slightly darker panel */
+  --bg-sunken: #caceca;
+  /* Input fields etc */
+
+  /* Text */
+  --text-main: #2f3e2f;
+  /* Dark organic green-black */
+  --text-muted: #6b7c6b;
+
+  /* Theme Colors */
+  --color-moss-light: #9dbf67;
+  --color-moss-dark: #5e7a38;
+  --color-rust: #c06c4b;
+  --color-metal: #7a8c99;
+  --color-metal-dark: #52606b;
+  --color-flower: #ff9cb3;
+  /* Pink accent */
+
+  /* Status Colors */
+  --status-idea: #9dbf67;
+  /* Moss Light */
+  --status-spec: #7a8c99;
+  /* Metal */
+  --status-working: #c06c4b;
+  /* Rust (Busy/Heat) */
+  --status-review: #ff9cb3;
+  /* Flower (Attention) */
+  --status-blocked: #52606b;
+  /* Dark Metal (Stopped) */
+  --status-done: #5e7a38;
+  /* Dark Moss (Completed/Overgrown) */
+
+  /* UI Spacing/Sizing */
+  --pixel-unit: 4px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+
+body {
+  color: var(--text-main);
+  background: var(--bg-main);
+  font-family: 'Courier New', Courier, monospace;
+  /* Temporary fallback for retro feel */
+  -webkit-font-smoothing: none;
+  /* Sharper edges for pixel feel */
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Utilities for Pixel Art look */
+.pixel-border {
+  box-shadow:
+    -2px 0 0 0 var(--text-main),
+    2px 0 0 0 var(--text-main),
+    0 -2px 0 0 var(--text-main),
+    0 2px 0 0 var(--text-main);
+  margin: 2px;
+}
+
+/* Global ENFORCEMENT for Retro UI */
+body {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+input,
+select,
+textarea {
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+  caret-color: black !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #333 !important;
+  /* Dark grey/black placeholder */
+  opacity: 0.6;
+}
+
+.pixel-text {
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: -0.5px;
+}
+
+/* --- Gantt Chart Terminal Theme Overrides --- */
+/* Base SVG background */
+.gantt-theme-custom svg { background-color: #1F2937 !important; }
+/* Calendar headers background */
+.gantt-theme-custom .calendar-header { fill: #111827 !important; }
+/* Grid Rows background (hashed class from gantt-task-react context) */
+.gantt-theme-custom ._2dZTy { fill: #1F2937 !important; }
+.gantt-theme-custom ._2dZTy:nth-child(even) { fill: #111827 !important; }
+/* Calendar top/bottom text */
+.gantt-theme-custom ._9w8d5, .gantt-theme-custom ._2q1Kt { fill: var(--color-moss-light) !important; }
+/* Grid tick lines / month dividers */
+.gantt-theme-custom ._1rLuZ, .gantt-theme-custom ._3rUKi, .gantt-theme-custom ._RuwuK { stroke: rgba(157, 191, 103, 0.2) !important; }
+.gantt-theme-custom .calendar-tick { stroke: rgba(157, 191, 103, 0.2) !important; opacity: 1; }
+.gantt-theme-custom .calendar-today { fill: rgba(157, 191, 103, 0.15) !important; }
+/* Task Bar Labels (inner and outer) */
+.gantt-theme-custom ._3zRJQ, .gantt-theme-custom ._3KcaM { 
+    fill: #FFFFFF !important; 
+    font-weight: bold !important; 
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important; 
+}
+/* Hide progress elements */
+.gantt-theme-custom .barHandle, .gantt-theme-custom .barProgress { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+
+/* Markdown Content Overrides */
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1rem 0;
+    border: 2px solid var(--color-moss-dark);
+}
+
+.markdown-content a {
+    color: var(--color-moss-light);
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+.markdown-content a:hover {
+    color: var(--text-main);
+    background-color: var(--color-moss-dark);
+}

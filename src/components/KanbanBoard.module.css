@@ -1,0 +1,54 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding-bottom: 2rem;
+    min-height: calc(100vh - 4rem);
+    width: 100%;
+}
+
+.board::-webkit-scrollbar-track {
+    background: #111;
+    border-radius: 4px;
+}
+
+.board::-webkit-scrollbar-thumb {
+    background: #008800;
+    border: 1px solid #00ff00;
+    border-radius: 4px;
+}
+
+.board::-webkit-scrollbar-thumb:hover {
+    background: #00bb00;
+}
+
+.column {
+    min-width: 280px;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-sunken);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+}
+
+.columnHeader {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 2px dashed var(--color-metal);
+}
+
+.count {
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}

@@ -1,0 +1,37 @@
+.button {
+    background-color: var(--bg-sunken);
+    color: var(--text-main);
+    border: 2px solid var(--text-main);
+    padding: 0.5rem 1rem;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px var(--text-main);
+    transition: transform 0.1s, box-shadow 0.1s;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px var(--text-main);
+}
+
+.button:hover {
+    background-color: #fff;
+}
+
+.primary {
+    background-color: var(--color-rust);
+    color: #fff;
+}
+
+.secondary {
+    background-color: var(--color-moss-dark);
+    color: #fff;
+}
+
+.outline {
+    background-color: transparent;
+    border-style: dashed;
+}

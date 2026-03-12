@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  name         String?
+  passwordHash String
+  role         String   @default("MEMBER") // PLANNER, PROGRAMMER, DESIGNER, SOUND
+  avatar       String?  // Emoji string like "[^_^]"
+  themeColor   String   @default("#00ff00") // Terminal Green default
+  personalMemo String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tasks             Task[]   @relation("TaskAssignee")
+  authoredComments  Comment[] @relation("CommentAuthor")
+  notifications     Notification[] @relation("UserNotifications")
+  authoredNotifs    Notification[] @relation("NotificationActor")
+  reviewRequests    ReviewRequest[] @relation("Reviewer")
+  initiatedReviews  ReviewRequest[] @relation("Requester")
+  systemLogs        SystemLog[]     @relation("UserSystemLogs")
+}
+
+
+model Milestone {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  tasks       Task[]
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  type        String    @default("TASK") // TASK, BUG
+  status      String    @default("TODO") // TODO, IN_PROGRESS, REVIEW, DONE
+  priority    String    @default("MIDDLE") // LOW, MIDDLE, HIGH
+  startDate   DateTime?
+  dueDate     DateTime?
+  tags        Tag[]
+  role        String    @default("PROGRAMMER") // PLANNER, PROGRAMMER, DESIGNER
+  progress    Int       @default(0) // 0-100
+  isMilestone Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  assignee    User?     @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  assigneeId  String?
+
+  milestone   Milestone? @relation(fields: [milestoneId], references: [id])
+  milestoneId String?
+
+  comments      Comment[]
+  reviewRequests ReviewRequest[]
+  notifications Notification[]
+  systemLogs    SystemLog[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+
+  author    User     @relation("CommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+}
+
+model ReviewRequest {
+  id        String   @id @default(uuid())
+  message   String?
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+
+  reviewer  User     @relation("Reviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  reviewerId String
+
+  requester User     @relation("Requester", fields: [requesterId], references: [id], onDelete: Cascade)
+  requesterId String
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  color     String   @default("#888888")
+  tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  type      String   // REVIEW_REQUEST, MENTION, COMMENT
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  actor     User?    @relation("NotificationActor", fields: [actorId], references: [id], onDelete: SetNull)
+  actorId   String?
+
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String?
+}
+
+model SystemLog {
+  id        String   @id @default(uuid())
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+
+  user      User     @relation("UserSystemLogs", fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+}
+

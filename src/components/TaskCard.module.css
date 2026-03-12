@@ -1,0 +1,94 @@
+.card {
+    background-color: var(--bg-main);
+    border: 2px solid var(--text-main);
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+    line-height: 1.2;
+}
+
+.meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.subtasks {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    border-top: 1px dashed var(--text-muted);
+    padding-top: 0.25rem;
+}
+
+/* Status Stripe */
+.stripe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+}
+
+.assignee {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    background-color: var(--bg-sunken);
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+.roleBadge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: monospace;
+    display: inline-block;
+    border: 1px solid;
+}
+
+.rolePlanner {
+    /* PLN: 紫 */
+    background-color: rgba(153, 51, 204, 0.15);
+    color: #b366ff;
+    border-color: rgba(179, 102, 255, 0.5);
+}
+
+.roleProgrammer {
+    /* PRG: 濃いめの青 */
+    background-color: rgba(51, 102, 255, 0.15);
+    color: #3366ff;
+    border-color: rgba(51, 102, 255, 0.5);
+}
+
+.roleDesigner {
+    /* DSG: 黄色 */
+    background-color: rgba(204, 153, 0, 0.15);
+    color: #ffcc00;
+    border-color: rgba(255, 204, 0, 0.5);
+}

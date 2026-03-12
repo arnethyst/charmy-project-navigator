@@ -1,0 +1,64 @@
+.container {
+    background-color: var(--bg-panel);
+    position: relative;
+    padding: 1.5rem;
+    margin: 1rem;
+    border: 4px solid var(--text-main);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+    image-rendering: pixelated;
+}
+
+/* Simulate moss on corners using pseudo-elements */
+.container::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 10px;
+    width: 20px;
+    height: 8px;
+    background-color: var(--color-moss-light);
+    border: 2px solid var(--text-main);
+    z-index: 10;
+}
+
+.container::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 15px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-moss-dark);
+    border: 2px solid var(--text-main);
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.title {
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px dashed var(--color-metal);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.danger {
+    border-color: var(--color-rust);
+}
+
+.danger .title {
+    color: var(--color-rust);
+    border-bottom-color: var(--color-rust);
+}
+
+.danger::before {
+    background-color: var(--color-rust);
+}
+
+.danger::after {
+    background-color: var(--color-metal-dark);
+}

@@ -3,6 +3,8 @@ import { MossyFrame } from '../../components/ui/MossyFrame';
 import styles from './page.module.css';
 import { AuthForm } from '../../components/AuthForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function LoginPage() {
     const users = await getUsers();
 

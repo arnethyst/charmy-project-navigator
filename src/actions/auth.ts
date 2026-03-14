@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import prisma from '../lib/prisma';
 import bcrypt from 'bcryptjs';
@@ -89,6 +90,9 @@ export async function signup(formData: FormData) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
     });
+
+    // Revalidate login page to show new user
+    revalidatePath('/login');
 
     // Return success and redirect URL instead of redirecting immediately
     // to allow client-side animation to finish

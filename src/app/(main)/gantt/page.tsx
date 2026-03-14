@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import 'gantt-task-react/dist/index.css';
-import { getProjectTasks, updateTaskDates } from '@/actions/task';
-import { getCurrentUser } from '@/actions/auth';
+import { getProjectTasks, updateTaskDates } from '../../../actions/task';
+import { getCurrentUser } from '../../../actions/auth';
 import { useRouter } from 'next/navigation';
 
 const CustomTaskListHeader: React.FC<any> = ({ headerHeight, fontFamily, fontSize, rowWidth }) => {

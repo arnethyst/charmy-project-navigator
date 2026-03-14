@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createTask } from "@/actions/createTask";
+import { createTask } from "../actions/createTask";
 import CreatableSelect from 'react-select/creatable';
-import { getAllTags } from '@/actions/tag';
+import { getAllTags } from '../actions/tag';
 
 export function NewTaskForm({ users, currentUserRole }: { users: any[], currentUserRole?: string }) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

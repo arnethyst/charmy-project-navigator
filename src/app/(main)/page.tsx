@@ -1,12 +1,12 @@
-import { getProjectTasks } from "@/actions/task";
-import prisma from "@/lib/prisma";
-import { getCurrentUser, getUsers } from "@/actions/auth";
+import { getProjectTasks } from "../../actions/task";
+import prisma from "../../lib/prisma";
+import { getCurrentUser, getUsers } from "../../actions/auth";
 import Link from "next/link";
 
-import { MossyFrame } from "@/components/ui/MossyFrame";
-import { TaskCard } from "@/components/TaskCard";
-import { ProgressBar } from "@/components/ui/ProgressBar";
-import { TypingGreeting } from "@/components/TypingGreeting";
+import { MossyFrame } from "../../components/ui/MossyFrame";
+import { TaskCard } from "../../components/TaskCard";
+import { ProgressBar } from "../../components/ui/ProgressBar";
+import { TypingGreeting } from "../../components/TypingGreeting";
 import styles from "./Dashboard.module.css";
 
 export default async function DashboardPage() {

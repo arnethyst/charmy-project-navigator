@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import prisma from '../lib/prisma';
 
 /**
  * 登録済みの全タグを取得します。

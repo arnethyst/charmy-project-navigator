@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getMyReviewRequests } from '@/actions/communications';
-import { updateTaskStatus } from '@/actions/task';
+import { getMyReviewRequests } from '../actions/communications';
+import { updateTaskStatus } from '../actions/task';
 import { useRouter } from 'next/navigation';
 import { StatusBadge } from './ui/StatusBadge';
 

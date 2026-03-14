@@ -1,6 +1,6 @@
-import { getTask } from "@/actions/task";
-import { getUsers, getCurrentUser } from "@/actions/auth";
-import { TaskDetail } from "@/components/TaskDetail";
+import { getTask } from "../../../../actions/task";
+import { getUsers, getCurrentUser } from "../../../../actions/auth";
+import { TaskDetail } from "../../../../components/TaskDetail";
 import { notFound } from "next/navigation";
 
 export default async function TaskPage({ params }: { params: Promise<{ id: string }> }) {

@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/lib/prisma';
-import { getCurrentUser } from '@/actions/auth';
+import prisma from '../lib/prisma';
+import { getCurrentUser } from './auth';
 import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcryptjs';
 

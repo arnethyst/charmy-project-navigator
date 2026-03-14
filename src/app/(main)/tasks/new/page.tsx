@@ -1,6 +1,6 @@
-import { getUsers, getCurrentUser } from "@/actions/auth";
-import { MossyFrame } from "@/components/ui/MossyFrame";
-import { NewTaskForm } from "@/components/NewTaskForm";
+import { getUsers, getCurrentUser } from "../../../../actions/auth";
+import { MossyFrame } from "../../../../components/ui/MossyFrame";
+import { NewTaskForm } from "../../../../components/NewTaskForm";
 
 export default async function NewTaskPage() {
     const allUsers = await getUsers();

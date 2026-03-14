@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { PixelButton } from './ui/PixelButton';
 import { MossyFrame } from './ui/MossyFrame';
-import { createReviewRequest } from '@/actions/communications';
+import { createReviewRequest } from '../actions/communications';
 
 export function ReviewRequestModal({
     taskId,

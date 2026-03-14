@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { updateTask, deleteTask, markTaskSystemLogsAsRead } from '@/actions/task';
-import { uploadImage } from '@/actions/upload';
+import { updateTask, deleteTask, markTaskSystemLogsAsRead } from '../actions/task';
+import { uploadImage } from '../actions/upload';
 import { MossyFrame } from './ui/MossyFrame';
 import { PixelButton } from './ui/PixelButton';
 import { StatusBadge } from './ui/StatusBadge';
@@ -12,7 +12,7 @@ import { ReviewRequestModal } from './ReviewRequestModal';
 import { CommentSection } from './CommentSection';
 import { useRouter } from 'next/navigation';
 import CreatableSelect from 'react-select/creatable';
-import { getAllTags } from '@/actions/tag';
+import { getAllTags } from '../actions/tag';
 import { useEffect } from 'react';
 // import styles from './TaskDetail.module.css'; // Inline styles for speed for now or reuse?
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './Sidebar.module.css';
-import { getCurrentUser, logout } from '@/actions/auth';
-import { getUnreadSystemLogsCount } from '@/actions/task';
+import { getCurrentUser, logout } from '../actions/auth';
+import { getUnreadSystemLogsCount } from '../actions/task';
 import { PixelButton } from './ui/PixelButton';
 import { clsx } from 'clsx';
 

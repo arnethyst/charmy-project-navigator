@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { PixelButton } from '@/components/ui/PixelButton';
-import styles from '@/app/admin/admin.module.css'; // Reuse admin modal styles
-import { createTask } from '@/actions/task';
-import { getUsers } from '@/actions/auth'; // Reusing this to get user list for assignment
+import { PixelButton } from './ui/PixelButton';
+import styles from '../app/admin/admin.module.css'; // Reuse admin modal styles
+import { createTask } from '../actions/task';
+import { getUsers } from '../actions/auth'; // Reusing this to get user list for assignment
 import CreatableSelect from 'react-select/creatable';
-import { getAllTags } from '@/actions/tag';
+import { getAllTags } from '../actions/tag';
 
 interface User {
     id: string;

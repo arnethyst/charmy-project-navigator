@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { updateTaskStatus } from '@/actions/task';
+import { updateTaskStatus } from '../actions/task';
 import { TaskCard } from './TaskCard';
 import { StatusBadge, TaskStatus } from './ui/StatusBadge';
 import { MossyFrame } from './ui/MossyFrame';

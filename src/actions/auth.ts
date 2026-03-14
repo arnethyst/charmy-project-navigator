@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import prisma from '@/lib/prisma';
+import prisma from '../lib/prisma';
 import bcrypt from 'bcryptjs';
 
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days

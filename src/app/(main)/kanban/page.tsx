@@ -1,6 +1,6 @@
-import { getProjectTasks } from "@/actions/task";
-import { getUsers, getCurrentUser } from "@/actions/auth";
-import { KanbanBoard } from "@/components/KanbanBoard";
+import { getProjectTasks } from "../../../actions/task";
+import { getUsers, getCurrentUser } from "../../../actions/auth";
+import { KanbanBoard } from "../../../components/KanbanBoard";
 
 export const dynamic = 'force-dynamic';
 

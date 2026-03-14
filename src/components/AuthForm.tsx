@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login, signup } from '@/actions/auth';
-import { PixelButton } from '@/components/ui/PixelButton';
+import { login, signup } from '../actions/auth';
+import { PixelButton } from './ui/PixelButton';
 import styles from '../app/login/page.module.css';
 
 interface User {

@@ -1,5 +1,5 @@
-import { getCurrentUser } from "@/actions/auth";
-import { Sidebar } from "@/components/Sidebar";
+import { getCurrentUser } from "../../actions/auth";
+import { Sidebar } from "../../components/Sidebar";
 import { redirect } from "next/navigation";
 
 export default async function MainLayout({

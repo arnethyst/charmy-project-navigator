@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './GanttChart.module.css';
 import Link from 'next/link';
-import { updateTaskDates } from '@/actions/task';
+import { updateTaskDates } from '../actions/task';
 import clsx from 'clsx';
 
 interface Task {

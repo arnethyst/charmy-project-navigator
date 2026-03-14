@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { getTaskComments, addComment } from '@/actions/communications';
-import { getUsers } from '@/actions/auth';
+import { getTaskComments, addComment } from '../actions/communications';
+import { getUsers } from '../actions/auth';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 

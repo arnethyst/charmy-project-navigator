@@ -58,7 +58,8 @@ export async function signup(formData: FormData) {
     const themeColor = (formData.get('themeColor') as string) || '#00ff00';
     const passkey = formData.get('passkey') as string;
 
-    if (passkey !== process.env.PROJECT_PASSKEY) {
+    const serverPasskey = process.env.PROJECT_PASSKEY || 'PCN001';
+    if (passkey !== serverPasskey) {
         return { error: 'Invalid Project Passkey' };
     }
 

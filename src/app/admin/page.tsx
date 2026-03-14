@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUsers, updateUser, deleteUser } from '@/actions/admin';
-import { getMilestones, createMilestone, updateMilestone, deleteMilestone } from '@/actions/milestone';
-import { logout } from '@/actions/auth';
-import { PixelButton } from '@/components/ui/PixelButton';
-import { MossyFrame } from '@/components/ui/MossyFrame';
+import { getUsers, updateUser, deleteUser } from '../../actions/admin';
+import { getMilestones, createMilestone, updateMilestone, deleteMilestone } from '../../actions/milestone';
+import { logout } from '../../actions/auth';
+import { PixelButton } from '../../components/ui/PixelButton';
+import { MossyFrame } from '../../components/ui/MossyFrame';
 import styles from './admin.module.css';
 // Check if VerifySession is available client-side? No, it's server-side.
 // We'll rely on server action or layout protection, but for now simple check in useEffect?

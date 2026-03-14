@@ -1,7 +1,7 @@
-import { getUsers } from '@/actions/auth';
-import { MossyFrame } from '@/components/ui/MossyFrame';
+import { getUsers } from '../../actions/auth';
+import { MossyFrame } from '../../components/ui/MossyFrame';
 import styles from './page.module.css';
-import { AuthForm } from '@/components/AuthForm';
+import { AuthForm } from '../../components/AuthForm';
 
 export default async function LoginPage() {
     const users = await getUsers();

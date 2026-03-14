@@ -299,6 +299,19 @@ export async function updateTask(taskId: string, data: any) {
             data: updateData,
         });
 
+        // If task is completed, also mark all pending review requests as APPROVED
+        if (updateData.status === 'DONE') {
+            await prisma.reviewRequest.updateMany({
+                where: {
+                    taskId,
+                    status: 'PENDING'
+                },
+                data: {
+                    status: 'APPROVED'
+                }
+            });
+        }
+
         // 内容の変更を検知してログ生成
         let logMessage = '';
         let targetUserId = oldTask.assigneeId;

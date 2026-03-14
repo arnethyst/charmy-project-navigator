@@ -138,3 +138,4 @@ model SystemLog {
   user      User     @relation("UserSystemLogs", fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }
+

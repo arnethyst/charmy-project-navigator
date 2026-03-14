@@ -18,6 +18,7 @@ interface Task {
     assignee?: any;
     tags?: any[] | null;
     role?: string | null;
+    isMilestone?: boolean;
 }
 
 
@@ -37,6 +38,9 @@ export function KanbanBoard({ initialTasks, users, currentUser }: { initialTasks
     // Auto-archive DONE tasks older than 72 hours
     const now = new Date();
     const visibleTasks = mappedTasks.filter(task => {
+        // Hide milestones from the task board
+        if (task.isMilestone) return false;
+
         if (task.status === 'DONE' && (task as any).updatedAt) {
             const updatedAt = new Date((task as any).updatedAt);
             const hoursDiff = (now.getTime() - updatedAt.getTime()) / (1000 * 60 * 60);

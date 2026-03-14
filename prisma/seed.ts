@@ -23,23 +23,12 @@ async function main() {
       passwordHash,
       role: 'ADMIN',
       avatar: '[0_0]',
-      themeColor: '#00ccff',
+      themeColor: '#00ff00',
     }
   })
 
-  // 3. Register Fixed Milestones (as Tasks with isMilestone: true)
-  const milestonesData = [
-    { title: '書類審査〆', date: '2026-05-30' },
-    { title: 'アルファ版完成', date: '2026-07-01' },
-    { title: '中間審査', date: '2026-07-11' },
-    { title: 'ベータ版完成', date: '2026-08-08' },
-    { title: '最終審査', date: '2026-08-18' },
-    { title: 'TGS2026本番Day1', date: '2026-09-17' },
-    { title: 'TGS2026本番Day2', date: '2026-09-18' },
-    { title: 'TGS2026本番Day3', date: '2026-09-19' },
-    { title: 'TGS2026本番Day4', date: '2026-09-20' },
-    { title: 'TGS2026本番Day5', date: '2026-09-21' },
-  ]
+  // 3. Register Fixed Milestones (No milestones for now as requested)
+  const milestonesData: any[] = []
 
   for (const m of milestonesData) {
     await prisma.task.create({
@@ -47,15 +36,15 @@ async function main() {
         title: m.title,
         status: 'TODO',
         priority: 'HIGH',
-        dueDate: new Date(m.date),
-        startDate: new Date(m.date),
+        dueDate: new Date(m.end),
+        startDate: new Date(m.start),
         isMilestone: true,
-        assigneeId: admin.id, // Assign to admin by default
+        assigneeId: admin.id,
       }
     })
   }
 
-  console.log('Seed database with Admin user and fixed milestones.')
+  console.log('Seed database with Admin user only (Milestones removed).')
 }
 
 main()

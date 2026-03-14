@@ -29,7 +29,7 @@ const CustomTaskListTable: React.FC<any> = ({ rowHeight, rowWidth, tasks, fontFa
     return (
         <div style={{ width: rowWidth, fontFamily, fontSize, backgroundColor: '#1F2937', color: '#ffffff' }}>
             {tasks.map((task: Task) => {
-                const isDummy = task.id === 'dummy-start' || task.id === 'dummy-end' || (task.isDisabled && task.id !== 'milestone-base') || task.name.trim() === '';
+                const isDummy = task.id === 'dummy-start' || task.id === 'dummy-end' || task.isDisabled || task.name.trim() === '';
 
                 // ダミータスク（隠蔽）の場合
                 if (isDummy) {
@@ -137,8 +137,7 @@ export default function GanttPage() {
                         if (!hasTag) return false;
                     }
 
-                    // 個別のマイルストーンは一旦タスクリスト（行）としては除外する
-                    if (t.isMilestone) return false;
+                    // Keep milestones in Gantt view but hide from Kanban
 
                     return true;
                 });
@@ -155,12 +154,6 @@ export default function GanttPage() {
 
                     const colors = getStatusColor(t.status);
 
-                    // Override colors for milestones to make them stand out
-                    if (t.isMilestone) {
-                        colors.bg = 'rgba(239, 68, 68, 0.8)'; // Red
-                        colors.selectedBg = '#dc2626';
-                    }
-
                     return {
                         id: t.id,
                         type: t.isMilestone ? 'milestone' : 'task',
@@ -169,7 +162,6 @@ export default function GanttPage() {
                         end,
                         progress: 0,
                         isDisabled: t.isMilestone ? !isAdmin : false,
-                        isMilestone: t.isMilestone, // Internal tracking for sorting
                         styles: {
                             backgroundColor: colors.bg,
                             backgroundSelectedColor: colors.selectedBg,
@@ -179,31 +171,10 @@ export default function GanttPage() {
                     };
                 });
 
-                // Add base milestone for project scale
-                const projectStart = new Date('2026-03-01T00:00:00');
-                const projectEnd = new Date('2027-03-31T00:00:00');
-
-                mappedTasks.push({
-                    id: 'milestone-base',
-                    type: 'project',
-                    name: 'マイルストーン',
-                    start: projectStart,
-                    end: new Date(projectEnd.getFullYear(), projectEnd.getMonth(), projectEnd.getDate(), 23, 59, 59, 999),
-                    progress: 0,
-                    isDisabled: true,
-                    isMilestone: true,
-                    styles: {
-                        backgroundColor: 'transparent',
-                        backgroundSelectedColor: 'transparent',
-                        progressColor: 'transparent',
-                        progressSelectedColor: 'transparent',
-                    }
-                });
-
                 // Sort tasks: Milestones strictly at the top, followed by chronological ordering
                 mappedTasks.sort((a: any, b: any) => {
-                    if (a.isMilestone && !b.isMilestone) return -1;
-                    if (!a.isMilestone && b.isMilestone) return 1;
+                    if (a.type === 'milestone' && b.type !== 'milestone') return -1;
+                    if (a.type !== 'milestone' && b.type === 'milestone') return 1;
                     return a.start.getTime() - b.start.getTime();
                 });
 
@@ -217,193 +188,6 @@ export default function GanttPage() {
 
         fetchTasks();
     }, [filterStatus, filterAssignee, filterRole, filterTag]);
-
-    useEffect(() => {
-        if (isLoading || tasks.length === 0 || milestones.length === 0) return;
-
-        let observer: MutationObserver | null = null;
-        let debounceTimer: NodeJS.Timeout | null = null;
-        let isUnmounted = false;
-
-        const renderMilestones = () => {
-            if (isUnmounted) return;
-            const svg = document.querySelector('.gantt-container .scroll-container svg') || document.querySelector('.gantt-container svg');
-            if (!svg) return;
-
-            // Find the base task rect (we know our base task is top and colored #fca5a5)
-            const barRects = Array.from(svg.querySelectorAll('rect')).filter(r => 
-                r.getAttribute('fill') === '#fca5a5' || 
-                (r.style && r.style.fill === '#fca5a5') ||
-                r.getAttribute('fill') === 'rgb(252, 165, 165)'
-            );
-            
-            let baseRect: SVGRectElement | null = null;
-            if (barRects.length > 0) {
-                // sort by y just in case
-                barRects.sort((a, b) => parseFloat(a.getAttribute('y') || '0') - parseFloat(b.getAttribute('y') || '0'));
-                baseRect = barRects[0];
-            }
-
-            if (!baseRect) return;
-
-            // 既存のオーバーレイを確認、あれば削除
-            let overlayG = svg.querySelector('.milestones-overlay');
-            if (overlayG) {
-                overlayG.remove();
-            }
-
-            const x1 = parseFloat(baseRect.getAttribute('x') || '0');
-            const y = parseFloat(baseRect.getAttribute('y') || '0');
-            const height = parseFloat(baseRect.getAttribute('height') || '70');
-
-            const chartStartDate = tasks.reduce((minDate, task) => {
-                return task.start.getTime() < minDate.getTime() ? task.start : minDate;
-            }, new Date('2030-01-01'));
-
-            overlayG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            overlayG.setAttribute('class', 'milestones-overlay');
-            (overlayG as HTMLElement).style.pointerEvents = 'none';
-
-            milestones.forEach(m => {
-                const msTime = m.dueDate ? new Date(m.dueDate).getTime() : 
-                               m.startDate ? new Date(m.startDate).getTime() : 
-                               new Date(m.createdAt).getTime();
-
-                const diffDays = (msTime - chartStartDate.getTime()) / (1000 * 60 * 60 * 24);
-                // columnWidth = 60
-                const xPos = x1 + diffDays * 60; 
-                
-                // Vertical Line
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', xPos.toString());
-                line.setAttribute('y1', '0');
-                line.setAttribute('x2', xPos.toString());
-                line.setAttribute('y2', '2000'); // Sufficiently long
-                line.setAttribute('stroke', 'rgba(239, 68, 68, 0.4)');
-                line.setAttribute('stroke-width', '2');
-                line.setAttribute('stroke-dasharray', '4,4');
-                overlayG.appendChild(line);
-
-                const targetY = y + height / 2;
-
-                const groupInfo = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                groupInfo.setAttribute('transform', `translate(${xPos}, ${targetY})`);
-
-                // Diamond with Glow
-                const glow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-                glow.setAttribute('points', '-10,0 0,-10 10,0 0,10');
-                glow.setAttribute('fill', 'rgba(239, 68, 68, 0.3)');
-                glow.setAttribute('filter', 'blur(4px)');
-                
-                const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-                polygon.setAttribute('points', '-8,0 0,-8 8,0 0,8');
-                polygon.setAttribute('fill', '#ef4444');
-                polygon.setAttribute('stroke', '#fff');
-                polygon.setAttribute('stroke-width', '1.5');
-
-                const textShadow = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                textShadow.setAttribute('x', '16');
-                textShadow.setAttribute('y', '4');
-                textShadow.setAttribute('font-size', '12');
-                textShadow.setAttribute('fill', '#000');
-                textShadow.setAttribute('stroke', '#fff');
-                textShadow.setAttribute('stroke-width', '4');
-                textShadow.setAttribute('stroke-linejoin', 'round');
-                textShadow.setAttribute('font-weight', 'bold');
-                textShadow.setAttribute('font-family', 'monospace');
-                textShadow.textContent = m.title;
-
-                const textMain = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                textMain.setAttribute('x', '16');
-                textMain.setAttribute('y', '4');
-                textMain.setAttribute('font-size', '12');
-                textMain.setAttribute('fill', '#ef4444');
-                textMain.setAttribute('font-weight', 'bold');
-                textMain.setAttribute('font-family', 'monospace');
-                textMain.textContent = m.title;
-
-                groupInfo.appendChild(glow);
-                groupInfo.appendChild(polygon);
-                groupInfo.appendChild(textShadow);
-                groupInfo.appendChild(textMain);
-
-                overlayG.appendChild(groupInfo);
-            });
-
-            // appendChild into the bar's parent group so it moves properly with the document tree
-            const parentG = baseRect.parentElement;
-            if (parentG && parentG.tagName.toLowerCase() === 'g') {
-                parentG.appendChild(overlayG);
-            } else {
-                svg.appendChild(overlayG);
-            }
-        };
-
-        const tryInjectAndObserve = () => {
-            const svg = document.querySelector('.gantt-container .scroll-container svg') || document.querySelector('.gantt-container svg');
-            if (svg && svg.querySelector('rect')) {
-                renderMilestones();
-                
-                // Observer for Re-rendering Resistance
-                observer = new MutationObserver((mutations) => {
-                    if (isUnmounted) return;
-                    
-                    const isOnlyOurOverlay = mutations.every(m => {
-                        let selfRelated = false;
-                        m.addedNodes.forEach(n => {
-                            if ((n as Element).classList && (n as Element).classList.contains('milestones-overlay')) selfRelated = true;
-                        });
-                        m.removedNodes.forEach(n => {
-                            if ((n as Element).classList && (n as Element).classList.contains('milestones-overlay')) selfRelated = true;
-                        });
-                        return selfRelated;
-                    });
-
-                    if (!isOnlyOurOverlay) {
-                        if (debounceTimer) clearTimeout(debounceTimer);
-                        debounceTimer = setTimeout(() => {
-                            renderMilestones();
-                        }, 50); // debounce
-                    }
-                });
-
-                const containerToObserve = document.querySelector('.gantt-container') || document.body;
-                observer.observe(containerToObserve, {
-                    childList: true,
-                    subtree: true,
-                    attributes: false, 
-                });
-
-                return true;
-            }
-            return false;
-        };
-
-        if (!tryInjectAndObserve()) {
-            const intervalId = setInterval(() => {
-                if (tryInjectAndObserve()) {
-                    clearInterval(intervalId);
-                }
-            }, 500);
-            
-            return () => {
-                isUnmounted = true;
-                clearInterval(intervalId);
-                if (observer) observer.disconnect();
-                if (debounceTimer) clearTimeout(debounceTimer);
-                const ex = document.querySelector('.milestones-overlay');
-                if (ex) ex.remove();
-            };
-        }
-
-        return () => {
-            isUnmounted = true;
-            if (observer) observer.disconnect();
-            if (debounceTimer) clearTimeout(debounceTimer);
-            const existingOverlay = document.querySelector('.milestones-overlay');
-            if (existingOverlay) existingOverlay.remove();
-        };
-    }, [isLoading, tasks, milestones]);
 
     const handleTaskChange = async (task: Task) => {
         if (task.isDisabled) return;

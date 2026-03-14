@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getMyTasks, updateTaskStatus, getMySystemLogs, markSystemLogsAsRead } from '@/actions/task';
-import { getPersonalMemo, updatePersonalMemo } from '@/actions/user';
-import { getUsers, getCurrentUser } from '@/actions/auth';
+import { getMyTasks, updateTaskStatus, getMySystemLogs, markSystemLogsAsRead } from '../../../actions/task';
+import { getPersonalMemo, updatePersonalMemo } from '../../../actions/user';
+import { getUsers, getCurrentUser } from '../../../actions/auth';
 import { useRouter } from 'next/navigation';
-import { TaskModal } from '@/components/TaskModal';
-import { ReviewRequestModal } from '@/components/ReviewRequestModal';
-import { ReviewRequestsList } from '@/components/ReviewRequestsList';
-import { PixelButton } from '@/components/ui/PixelButton';
-import { MossyFrame } from '@/components/ui/MossyFrame';
+import { TaskModal } from '../../../components/TaskModal';
+import { ReviewRequestModal } from '../../../components/ReviewRequestModal';
+import { ReviewRequestsList } from '../../../components/ReviewRequestsList';
+import { PixelButton } from '../../../components/ui/PixelButton';
+import { MossyFrame } from '../../../components/ui/MossyFrame';
 
 interface Task {
     id: string;
